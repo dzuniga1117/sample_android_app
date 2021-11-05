@@ -30,11 +30,17 @@ class MyApp extends StatelessWidget {
 // - user image
 // - split columns with name, status, rating
 // - bottom navigation bar with a list of items
+//
+// Home is now stateful and so _HomeState() manages the state of the currently
+// drawn version of the home page
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
+// Note that the conversion to a stateful widget means that Home now can change
+// over time, so we have state variables that track what is changed within
+// this definition of the state
 class _HomeState extends State<Home> {
   int cur_rating = 0;
 
@@ -95,7 +101,7 @@ class _HomeState extends State<Home> {
                             (cur_rating >= 30 ? "PASSED" : "FAILED"),
                             style: TextStyle(
                               fontSize: 20.0,
-                              color: cur_rating >= 30 ? Colors.green : Colors.red,
+                              color: cur_rating >= 0 ? Colors.green : Colors.red,
                               fontWeight: FontWeight.bold,
                             )
                         ),
@@ -128,6 +134,8 @@ class _HomeState extends State<Home> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        // setState() within onPressed triggers the build() function to
+        // run again, thus updating the contents of the current screen
         onPressed: () {
           setState(() {
             cur_rating++;
