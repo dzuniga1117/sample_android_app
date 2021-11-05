@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 const MaterialColor main_color = Colors.orange;
 const String status = 'PASSED';
 
+// Global counter
+// int curRating = 0;
+
 // Main app
 void main() {
   runApp(MyApp());
@@ -27,7 +30,14 @@ class MyApp extends StatelessWidget {
 // - user image
 // - split columns with name, status, rating
 // - bottom navigation bar with a list of items
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int cur_rating = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,10 +92,10 @@ class Home extends StatelessWidget {
                             )
                         ),
                         Text(
-                            status,
+                            (cur_rating >= 30 ? "PASSED" : "FAILED"),
                             style: TextStyle(
                               fontSize: 20.0,
-                              color: status == "PASSED" ? Colors.green : Colors.red,
+                              color: cur_rating >= 30 ? Colors.green : Colors.red,
                               fontWeight: FontWeight.bold,
                             )
                         ),
@@ -101,7 +111,7 @@ class Home extends StatelessWidget {
                           )
                         ),
                         Text(
-                          '9999',
+                          '$cur_rating',
                           style: TextStyle(
                             fontSize: 50.0,
                             fontWeight: FontWeight.bold,
@@ -116,6 +126,15 @@ class Home extends StatelessWidget {
             )
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            cur_rating++;
+          });
+        },
+        child: Icon(Icons.add),
+        backgroundColor: main_color,
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: main_color,
@@ -133,3 +152,25 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+// class RatingButton extends StatefulWidget {
+//   const RatingButton({Key? key}) : super(key: key);
+//
+//   @override
+//   _RatingButtonState createState() => _RatingButtonState();
+// }
+//
+// class _RatingButtonState extends State<RatingButton> {
+//   int curRating = 0;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return FloatingActionButton(
+//         onPressed: () {
+//           setState(() {
+//             curRating++;
+//           });
+//         }
+//     );
+//   }
+// }
